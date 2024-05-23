@@ -1,0 +1,6 @@
+# vim:ft=hcl
+
+organization = "***"
+workspaces {
+    name = "oci-free"
+}

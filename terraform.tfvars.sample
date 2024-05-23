@@ -1,0 +1,4 @@
+# vim:ft=hcl
+
+oci_region = "***"
+tenancy_id = "***"
