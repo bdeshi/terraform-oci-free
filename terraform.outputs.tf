@@ -31,25 +31,25 @@ output "customer_key_id" {
 output "customer_key_key" {
   description = "The ID of the customer key"
   value       = try(oci_identity_customer_secret_key.admin[0].key, null)
-  sensitive = true
+  sensitive   = true
 }
 
 output "admin_initial_password" {
   description = "The initial password of the admin user"
   value       = try(oci_identity_ui_password.admin_initial[0].password, null)
-  sensitive = true
+  sensitive   = true
 }
 
 output "admin_auth_token" {
   description = "The auth token of the admin user"
   value       = try(oci_identity_auth_token.admin[0].token, null)
-  sensitive = true
+  sensitive   = true
 }
 
 output "api_key_private" {
   description = "The private part of the admin user API key"
   value       = try(tls_private_key.admin_api_key[0].private_key_pem, null)
-  sensitive = true
+  sensitive   = true
 }
 
 output "api_key_fingerprint" {
