@@ -31,10 +31,6 @@ variable "prefix" {
   description = "Name prefix for all resources"
   type        = string
   default     = "free-"
-  validation {
-    condition     = substr(var.prefix, -1, 1) == "-"
-    error_message = "prefix must end in hyphen"
-  }
 }
 
 variable "admin_create_credentials" {
