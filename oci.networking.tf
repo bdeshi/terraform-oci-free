@@ -16,7 +16,7 @@ resource "oci_core_internet_gateway" "igw" {
 
 # https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/terraformbestpractices_topic-vcndefaults.htm
 
-resource "oci_core_default_route_table" "rt" {
+resource "oci_core_default_route_table" "vcn" {
   compartment_id             = oci_identity_compartment.compartment.id
   manage_default_resource_id = oci_core_vcn.vcn.default_route_table_id
   freeform_tags              = local.freeform_tags
