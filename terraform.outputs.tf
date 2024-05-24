@@ -56,3 +56,18 @@ output "api_key_fingerprint" {
   description = "The fingerprint of the admin user API key"
   value       = try(oci_identity_api_key.admin[0].fingerprint, null)
 }
+
+output "vcn_cidr_blocks" {
+  description = "The CIDR block for the VCN"
+  value       = oci_core_vcn.vcn.cidr_blocks
+}
+
+output "vcn_ipv6_cidr_blocks" {
+  description = "The IPv6 CIDR block for the VCN"
+  value       = oci_core_vcn.vcn.ipv6cidr_blocks
+}
+
+output "vcn_ipv6_cidr_private_blocks" {
+  description = "The IPv6 CIDR block for the VCN"
+  value       = oci_core_vcn.vcn.ipv6private_cidr_blocks
+}

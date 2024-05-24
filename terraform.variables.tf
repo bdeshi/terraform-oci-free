@@ -48,3 +48,15 @@ variable "admin_create_credentials" {
   }
   description = "Types of credentials to create for the admin user"
 }
+
+variable "vcn_cidr" {
+  description = "The CIDR block for the VCN"
+  type        = string
+  default     = "10.0.0.0/16"
+}
+
+variable "enable_ipv6" {
+  description = "Enable IPv6 for the VCN"
+  type        = bool
+  default     = true
+}
