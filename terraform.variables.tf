@@ -60,3 +60,15 @@ variable "enable_ipv6" {
   type        = bool
   default     = true
 }
+
+variable "compute_ssh_key" {
+  description = "The public SSH key for the compute instances"
+  type        = string
+  default     = null
+}
+
+variable "created_ssh_key_algorithm" {
+  description = "The algorithm for the created SSH key"
+  type        = string
+  default     = "ED25519"
+}

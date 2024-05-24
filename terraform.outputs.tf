@@ -71,3 +71,14 @@ output "vcn_ipv6_cidr_private_blocks" {
   description = "The IPv6 CIDR block for the VCN"
   value       = oci_core_vcn.vcn.ipv6private_cidr_blocks
 }
+
+output "ssh_key_public" {
+  description = "The public SSH key for the compute instances"
+  value       = local.compute_ssh_key
+}
+
+output "ssh_key_private" {
+  description = "The created SSH private key for the compute instances"
+  value       = try(tls_private_key.ssh_key[0].private_key_pem, null)
+  sensitive   = true
+}
