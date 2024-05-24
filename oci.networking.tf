@@ -48,3 +48,17 @@ resource "oci_core_security_list" "open_ports" {
     protocol = "all"
   }
 }
+
+resource "oci_core_subnet" "public_subnet" {
+  compartment_id = oci_identity_compartment.compartment.id
+  vcn_id         = oci_core_vcn.vcn.id
+  cidr_block     = var.vcn_cidr
+  display_name   = "public"
+  dns_label      = "public"
+  route_table_id = oci_core_default_route_table.vcn.id
+  security_list_ids = [
+    oci_core_vcn.vcn.default_security_list_id,
+    oci_core_security_list.open_ports.id
+  ]
+  freeform_tags = merge(local.freeform_tags, { type = "public" })
+}
