@@ -58,5 +58,5 @@ resource "oci_identity_api_key" "admin" {
   count = var.admin_create_credentials.api_key ? 1 : 0
 
   user_id   = oci_identity_user.admin.id
-  key_value = tls_private_key.admin_api_key[0].public_key_pem
+  key_value = trimspace(tls_private_key.admin_api_key[0].public_key_pem)
 }
