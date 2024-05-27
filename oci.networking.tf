@@ -1,10 +1,11 @@
 resource "oci_core_vcn" "vcn" {
-  compartment_id = oci_identity_compartment.compartment.id
-  cidr_block     = var.vcn_cidr
-  is_ipv6enabled = var.enable_ipv6
-  display_name   = join("", [var.prefix, "vcn"])
-  dns_label      = local.vcn_dns_label
-  freeform_tags  = local.freeform_tags
+  compartment_id                   = oci_identity_compartment.compartment.id
+  cidr_block                       = var.vcn_cidr
+  is_ipv6enabled                   = var.enable_ipv6
+  is_oracle_gua_allocation_enabled = true
+  display_name                     = join("", [var.prefix, "vcn"])
+  dns_label                        = local.vcn_dns_label
+  freeform_tags                    = local.freeform_tags
 }
 
 resource "oci_core_internet_gateway" "igw" {
@@ -48,7 +49,6 @@ resource "oci_core_default_security_list" "default" {
   }
 }
 
-# oci_core_network_security_group
 resource "oci_core_network_security_group" "default" {
   compartment_id = oci_identity_compartment.compartment.id
   vcn_id         = oci_core_vcn.vcn.id
@@ -77,13 +77,15 @@ resource "oci_core_network_security_group_security_rule" "default" {
   protocol                  = try(each.value.protocol, "all")
 }
 
-resource "oci_core_subnet" "public_subnet" {
-  compartment_id    = oci_identity_compartment.compartment.id
-  vcn_id            = oci_core_vcn.vcn.id
-  cidr_block        = var.vcn_cidr
-  display_name      = "public"
-  dns_label         = "public"
-  route_table_id    = oci_core_default_route_table.default.id
-  security_list_ids = [oci_core_default_security_list.default.id]
-  freeform_tags     = merge(local.freeform_tags, { type = "public" })
+resource "oci_core_subnet" "public" {
+  compartment_id      = oci_identity_compartment.compartment.id
+  vcn_id              = oci_core_vcn.vcn.id
+  cidr_block          = cidrsubnets(oci_core_vcn.vcn.cidr_blocks[0], 8)[0]
+  ipv6cidr_block      = var.enable_ipv6 ? cidrsubnets(oci_core_vcn.vcn.ipv6cidr_blocks[0], 8)[0] : null
+  display_name        = "public"
+  dns_label           = "public"
+  availability_domain = null
+  route_table_id      = oci_core_default_route_table.default.id
+  security_list_ids   = [oci_core_default_security_list.default.id]
+  freeform_tags       = merge(local.freeform_tags, { type = "public" })
 }

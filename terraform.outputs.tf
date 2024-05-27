@@ -72,6 +72,16 @@ output "vcn_ipv6_cidr_private_blocks" {
   value       = oci_core_vcn.vcn.ipv6private_cidr_blocks
 }
 
+output "subnet_cidr_block" {
+  description = "The CIDR block for the subnet"
+  value       = oci_core_subnet.public.cidr_block
+}
+
+output "subnet_ipv6_cidr_block" {
+  description = "The IPv6 CIDR block for the subnet"
+  value       = oci_core_subnet.public.ipv6cidr_block
+}
+
 output "ssh_key_public" {
   description = "The public SSH key for the compute instances"
   value       = local.compute_ssh_key
