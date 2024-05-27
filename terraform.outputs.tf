@@ -113,6 +113,14 @@ output "instance_selected_images" {
   value       = { for k, v in data.oci_core_images.selected : k => v.images[0].display_name }
 }
 
+output "email_endpoints" {
+  description = "The email configuration endpoints"
+  value = {
+    http = data.oci_email_configuration.endpoints.http_submit_endpoint
+    smtp = data.oci_email_configuration.endpoints.smtp_submit_endpoint
+  }
+}
+
 output "kms_vault_id" {
   description = "The ID of the KMS vault"
   value       = oci_kms_vault.vault[0].id

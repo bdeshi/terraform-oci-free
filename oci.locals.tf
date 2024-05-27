@@ -49,4 +49,12 @@ locals {
       index = split("_", item)[1]
     }
   }
+
+  topic_subscriptions = values({ for k, v in var.topics :
+    k => { for i, s in v.subscriptions : "${k}_${i}" => {
+      topic    = k
+      protocol = s.protocol
+      endpoint = s.endpoint
+    } }
+  })
 }

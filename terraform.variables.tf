@@ -158,26 +158,20 @@ variable "email_configuration" {
   }
 }
 
-variable "create_notification_topics" {
+variable "create_topics" {
   description = "Create notification topics"
   type        = bool
   default     = true
 }
 
-variable "topic_configuration" {
+variable "topics" {
   description = "Values for notification topics configuration"
-  type        = any
-  default     = {}
-}
-
-variable "enable_object_storage" {
-  description = "Create object storage bucket supporting configuration"
-  type        = bool
-  default     = true
-}
-
-variable "object_storage_buckets" {
-  description = "Values for object storage buckets to create"
-  type        = any
-  default     = {}
+  type = map(object({
+    description = string
+    subscriptions = list(object({
+      protocol = string
+      endpoint = string
+    }))
+  }))
+  default = {}
 }

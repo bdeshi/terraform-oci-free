@@ -2,6 +2,10 @@ data "oci_identity_tenancy" "tenancy" {
   tenancy_id = var.tenancy_id
 }
 
+data "oci_email_configuration" "endpoints" {
+  compartment_id = var.tenancy_id
+}
+
 # use this instead of oci_kms_key.key to await supporting policy creation
 data "oci_kms_key" "key" {
   for_each = var.create_vault ? var.use_kms : {}
