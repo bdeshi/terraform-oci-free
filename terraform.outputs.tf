@@ -89,6 +89,26 @@ output "ssh_key_public" {
 
 output "ssh_key_private" {
   description = "The created SSH private key for the compute instances"
-  value       = try(tls_private_key.ssh_key[0].private_key_pem, null)
+  value       = try(trimspace(tls_private_key.compute_ssh_key[0].private_key_pem), null)
   sensitive   = true
+}
+
+output "reserved_ip" {
+  description = "The reserved public IP address"
+  value       = oci_core_public_ip.static[0].ip_address
+}
+
+output "instance_ips" {
+  description = "The public IP addresses of the instances"
+  value       = { for k, v in oci_core_instance.compute : k => v.public_ip }
+}
+
+output "instance_availability_domains" {
+  description = "The availability domains of the instances"
+  value       = { for k, v in oci_core_instance.compute : k => v.availability_domain }
+}
+
+output "instance_selected_images" {
+  description = "The selected images for each instance shape"
+  value       = { for k, v in data.oci_core_images.selected : k => v.images[0].display_name }
 }

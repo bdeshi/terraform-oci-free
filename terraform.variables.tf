@@ -81,13 +81,13 @@ variable "use_vault" {
   }
 }
 
-variable "compute_ssh_key" {
+variable "supplied_compute_ssh_public_key" {
   description = "A pre-created public SSH key for the compute instances"
   type        = string
   default     = null
 }
 
-variable "created_ssh_key_algorithm" {
+variable "created_compute_ssh_key_algorithm" {
   description = "The algorithm for the created SSH key if no key is provided"
   type        = string
   default     = "ED25519"
