@@ -39,12 +39,14 @@ variable "admin_create_credentials" {
     auth_token   = bool
     customer_key = bool
     password     = bool
+    smtp         = bool
   })
   default = {
     api_key      = true
     auth_token   = false
     customer_key = false
     password     = false
+    smtp         = true
   }
   description = "Types of credentials to create for the admin user"
 }

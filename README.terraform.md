@@ -31,6 +31,7 @@ No modules.
 | [oci_core_public_ip.static](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_public_ip) | resource |
 | [oci_core_subnet.public](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_subnet) | resource |
 | [oci_core_vcn.vcn](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_vcn) | resource |
+| [oci_email_dkim.domain](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/email_dkim) | resource |
 | [oci_email_email_domain.domain](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/email_email_domain) | resource |
 | [oci_email_sender.sender](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/email_sender) | resource |
 | [oci_email_suppression.suppression](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/email_suppression) | resource |
@@ -41,6 +42,7 @@ No modules.
 | [oci_identity_group.administrators](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_group) | resource |
 | [oci_identity_policy.administrators](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_policy) | resource |
 | [oci_identity_policy.kms_service_policy](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_policy) | resource |
+| [oci_identity_smtp_credential.admin](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_smtp_credential) | resource |
 | [oci_identity_ui_password.admin_initial](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_ui_password) | resource |
 | [oci_identity_user.admin](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_user) | resource |
 | [oci_identity_user_group_membership.admin](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_user_group_membership) | resource |
@@ -63,7 +65,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_oci_region"></a> [oci\_region](#input\_oci\_region) | The region for the OCI provider | `string` | n/a | yes |
 | <a name="input_tenancy_id"></a> [tenancy\_id](#input\_tenancy\_id) | The OCID of the tenancy | `string` | n/a | yes |
-| <a name="input_admin_create_credentials"></a> [admin\_create\_credentials](#input\_admin\_create\_credentials) | Types of credentials to create for the admin user | <pre>object({<br>    api_key      = bool<br>    auth_token   = bool<br>    customer_key = bool<br>    password     = bool<br>  })</pre> | <pre>{<br>  "api_key": true,<br>  "auth_token": false,<br>  "customer_key": false,<br>  "password": false<br>}</pre> | no |
+| <a name="input_admin_create_credentials"></a> [admin\_create\_credentials](#input\_admin\_create\_credentials) | Types of credentials to create for the admin user | <pre>object({<br>    api_key      = bool<br>    auth_token   = bool<br>    customer_key = bool<br>    password     = bool<br>    smtp         = bool<br>  })</pre> | <pre>{<br>  "api_key": true,<br>  "auth_token": false,<br>  "customer_key": false,<br>  "password": false,<br>  "smtp": true<br>}</pre> | no |
 | <a name="input_create_instances"></a> [create\_instances](#input\_create\_instances) | Create compute instances types | <pre>object({<br>    micro = bool<br>    flex  = bool<br>  })</pre> | <pre>{<br>  "flex": true,<br>  "micro": true<br>}</pre> | no |
 | <a name="input_create_static_ip"></a> [create\_static\_ip](#input\_create\_static\_ip) | Create a reserved static IP | `bool` | `true` | no |
 | <a name="input_create_topics"></a> [create\_topics](#input\_create\_topics) | Create notification topics | `bool` | `true` | no |
@@ -87,6 +89,8 @@ No modules.
 |------|-------------|
 | <a name="output_admin_auth_token"></a> [admin\_auth\_token](#output\_admin\_auth\_token) | The auth token of the admin user |
 | <a name="output_admin_initial_password"></a> [admin\_initial\_password](#output\_admin\_initial\_password) | The initial password of the admin user |
+| <a name="output_admin_smtp_password"></a> [admin\_smtp\_password](#output\_admin\_smtp\_password) | The SMTP password of the admin user |
+| <a name="output_admin_smtp_username"></a> [admin\_smtp\_username](#output\_admin\_smtp\_username) | The SMTP username of the admin user |
 | <a name="output_admin_user_id"></a> [admin\_user\_id](#output\_admin\_user\_id) | The ID of the admin user |
 | <a name="output_api_key_fingerprint"></a> [api\_key\_fingerprint](#output\_api\_key\_fingerprint) | The fingerprint of the admin user API key |
 | <a name="output_api_key_private"></a> [api\_key\_private](#output\_api\_key\_private) | The private part of the admin user API key |
@@ -94,6 +98,7 @@ No modules.
 | <a name="output_compartment_name"></a> [compartment\_name](#output\_compartment\_name) | The name of the created compartment |
 | <a name="output_customer_key_id"></a> [customer\_key\_id](#output\_customer\_key\_id) | The ID of the customer key |
 | <a name="output_customer_key_key"></a> [customer\_key\_key](#output\_customer\_key\_key) | The ID of the customer key |
+| <a name="output_email_dkim_records"></a> [email\_dkim\_records](#output\_email\_dkim\_records) | The DKIM records for the email domain |
 | <a name="output_email_endpoints"></a> [email\_endpoints](#output\_email\_endpoints) | The email configuration endpoints |
 | <a name="output_instance_availability_domains"></a> [instance\_availability\_domains](#output\_instance\_availability\_domains) | The availability domains of the instances |
 | <a name="output_instance_ips"></a> [instance\_ips](#output\_instance\_ips) | The public IP addresses of the instances |

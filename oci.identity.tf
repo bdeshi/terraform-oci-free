@@ -47,6 +47,13 @@ resource "oci_identity_auth_token" "admin" {
   description = local.common_description
 }
 
+resource "oci_identity_smtp_credential" "admin" {
+  count = var.admin_create_credentials.smtp ? 1 : 0
+
+  description = "default smtp credentials"
+  user_id     = oci_identity_user.admin.id
+}
+
 resource "tls_private_key" "admin_api_key" {
   count = var.admin_create_credentials.api_key ? 1 : 0
 

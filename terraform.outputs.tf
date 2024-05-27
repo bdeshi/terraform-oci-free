@@ -46,6 +46,17 @@ output "admin_auth_token" {
   sensitive   = true
 }
 
+output "admin_smtp_username" {
+  description = "The SMTP username of the admin user"
+  value       = oci_identity_smtp_credential.admin[0].username
+}
+
+output "admin_smtp_password" {
+  description = "The SMTP password of the admin user"
+  value       = oci_identity_smtp_credential.admin[0].password
+  sensitive   = true
+}
+
 output "api_key_private" {
   description = "The private part of the admin user API key"
   value       = try(tls_private_key.admin_api_key[0].private_key_pem, null)
@@ -119,6 +130,15 @@ output "email_endpoints" {
     http = data.oci_email_configuration.endpoints.http_submit_endpoint
     smtp = data.oci_email_configuration.endpoints.smtp_submit_endpoint
   }
+}
+
+output "email_dkim_records" {
+  description = "The DKIM records for the email domain"
+  value = { for k, v in oci_email_dkim.domain : k => {
+    cname_value  = v.cname_record_value
+    cname_record = v.dns_subdomain_name
+    txt_record   = v.txt_record_value
+  } }
 }
 
 output "kms_vault_id" {
