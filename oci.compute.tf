@@ -35,7 +35,7 @@ resource "oci_core_instance" "compute" {
   source_details {
     source_type                     = "image"
     source_id                       = data.oci_core_images.selected[each.value.key].images[0].id
-    kms_key_id                      = var.use_vault.volume ? try(data.oci_kms_key.key["volume"].id, null) : null
+    kms_key_id                      = var.use_kms.volume ? try(data.oci_kms_key.key["volume"].id, null) : null
     boot_volume_size_in_gbs         = each.value.key == "flex" ? 100 : 50
     boot_volume_vpus_per_gb         = 120
     is_preserve_boot_volume_enabled = false

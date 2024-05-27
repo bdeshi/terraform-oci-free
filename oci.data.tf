@@ -4,7 +4,7 @@ data "oci_identity_tenancy" "tenancy" {
 
 # use this instead of oci_kms_key.key to await supporting policy creation
 data "oci_kms_key" "key" {
-  for_each = var.create_vault ? var.use_vault : {}
+  for_each = var.create_vault ? var.use_kms : {}
 
   management_endpoint = oci_kms_vault.vault[0].management_endpoint
   key_id              = oci_kms_key.key[each.key].id

@@ -112,3 +112,21 @@ output "instance_selected_images" {
   description = "The selected images for each instance shape"
   value       = { for k, v in data.oci_core_images.selected : k => v.images[0].display_name }
 }
+
+output "kms_vault_id" {
+  description = "The ID of the KMS vault"
+  value       = oci_kms_vault.vault[0].id
+}
+
+output "kms_vault_endpoints" {
+  description = "The KMS vault endpoints"
+  value = {
+    management = oci_kms_vault.vault[0].management_endpoint
+    encryption = oci_kms_vault.vault[0].crypto_endpoint
+  }
+}
+
+output "kms_key_ids" {
+  description = "The IDs of the KMS keys"
+  value       = { for k, v in oci_kms_key.key : k => v.id }
+}

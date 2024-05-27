@@ -67,7 +67,7 @@ variable "create_vault" {
   default     = true
 }
 
-variable "use_vault" {
+variable "use_kms" {
   description = "Use created vault for key creation and management"
   type = object({
     volume   = bool

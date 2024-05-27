@@ -8,7 +8,7 @@ resource "oci_kms_vault" "vault" {
 }
 
 resource "oci_kms_key" "key" {
-  for_each = var.create_vault ? var.use_vault : {}
+  for_each = var.create_vault ? var.use_kms : {}
 
   compartment_id      = oci_identity_compartment.compartment.id
   management_endpoint = oci_kms_vault.vault[0].management_endpoint
@@ -27,11 +27,11 @@ resource "oci_identity_policy" "kms_service_policy" {
   name           = "kms-service-policy"
   description    = "kms service policy"
   statements = [
-    !var.use_vault.volume ? "" :
+    !var.use_kms.volume ? "" :
     "allow service blockstorage to use keys in compartment '${oci_identity_compartment.compartment.name}' where target.key.id='${oci_kms_key.key["volume"].id}'",
-    !var.use_vault.object ? "" :
+    !var.use_kms.object ? "" :
     "allow service objectstorage-${var.oci_region} to use keys in compartment '${oci_identity_compartment.compartment.name}' where target.key.id='${oci_kms_key.key["object"].id}'",
-    !var.use_vault.database ? "" :
+    !var.use_kms.database ? "" :
     "allow service dbcs to use keys in compartment '${oci_identity_compartment.compartment.name}' where target.key.id='${oci_kms_key.key["database"].id}'",
   ]
   freeform_tags = local.freeform_tags
