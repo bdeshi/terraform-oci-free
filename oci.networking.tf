@@ -16,7 +16,7 @@ resource "oci_core_internet_gateway" "igw" {
 
 # https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/terraformbestpractices_topic-vcndefaults.htm
 
-resource "oci_core_default_route_table" "vcn" {
+resource "oci_core_default_route_table" "default" {
   compartment_id             = oci_identity_compartment.compartment.id
   manage_default_resource_id = oci_core_vcn.vcn.default_route_table_id
   freeform_tags              = local.freeform_tags
@@ -26,11 +26,10 @@ resource "oci_core_default_route_table" "vcn" {
   }
 }
 
-resource "oci_core_security_list" "open_ports" {
-  compartment_id = oci_identity_compartment.compartment.id
-  vcn_id         = oci_core_vcn.vcn.id
-  display_name   = "all-open"
-  freeform_tags  = local.freeform_tags
+resource "oci_core_default_security_list" "default" {
+  compartment_id             = oci_identity_compartment.compartment.id
+  manage_default_resource_id = oci_core_vcn.vcn.default_security_list_id
+  freeform_tags              = local.freeform_tags
   egress_security_rules {
     destination = "0.0.0.0/0"
     protocol    = "all"
@@ -49,16 +48,42 @@ resource "oci_core_security_list" "open_ports" {
   }
 }
 
-resource "oci_core_subnet" "public_subnet" {
+# oci_core_network_security_group
+resource "oci_core_network_security_group" "default" {
   compartment_id = oci_identity_compartment.compartment.id
   vcn_id         = oci_core_vcn.vcn.id
-  cidr_block     = var.vcn_cidr
-  display_name   = "public"
-  dns_label      = "public"
-  route_table_id = oci_core_default_route_table.vcn.id
-  security_list_ids = [
-    oci_core_vcn.vcn.default_security_list_id,
-    oci_core_security_list.open_ports.id
+  display_name   = "default"
+  freeform_tags  = local.freeform_tags
+}
+
+locals {
+  nsg_default_rule_matrix = [
+    { direction = "EGRESS", value = "0.0.0.0/0" },
+    { direction = "EGRESS", value = "::/0" },
+    { direction = "INGRESS", value = "0.0.0.0/0" },
+    { direction = "INGRESS", value = "::/0" }
   ]
-  freeform_tags = merge(local.freeform_tags, { type = "public" })
+}
+
+resource "oci_core_network_security_group_security_rule" "default" {
+  for_each = zipmap(range(length(local.nsg_default_rule_matrix)), local.nsg_default_rule_matrix)
+
+  network_security_group_id = oci_core_network_security_group.default.id
+  direction                 = each.value.direction
+  source_type               = each.value.direction == "INGRESS" ? try(each.value.type, "CIDR_BLOCK") : null
+  source                    = each.value.direction == "INGRESS" ? each.value.value : null
+  destination_type          = each.value.direction == "EGRESS" ? try(each.value.type, "CIDR_BLOCK") : null
+  destination               = each.value.direction == "EGRESS" ? each.value.value : null
+  protocol                  = try(each.value.protocol, "all")
+}
+
+resource "oci_core_subnet" "public_subnet" {
+  compartment_id    = oci_identity_compartment.compartment.id
+  vcn_id            = oci_core_vcn.vcn.id
+  cidr_block        = var.vcn_cidr
+  display_name      = "public"
+  dns_label         = "public"
+  route_table_id    = oci_core_default_route_table.default.id
+  security_list_ids = [oci_core_default_security_list.default.id]
+  freeform_tags     = merge(local.freeform_tags, { type = "public" })
 }
