@@ -127,14 +127,13 @@ variable "create_databases" {
   default     = true
 }
 
-variable "db_types" {
+variable "database_types" {
   description = "Types of database workloads to create"
   type        = list(string)
   default     = []
-  # validate that each entry is a valid workload type
   validation {
-    error_message = "db_types must be a list of 'OLTP', 'DW', 'AJD' or 'APEX'"
-    condition     = alltrue([for v in var.db_types : contains(["OLTP", "DW", "AJD", "APEX"], v)])
+    error_message = "database_types must be a list of 'OLTP', 'DW', 'AJD' or 'APEX'"
+    condition     = alltrue([for v in var.database_types : contains(["OLTP", "DW", "AJD", "APEX"], v)])
   }
 }
 
