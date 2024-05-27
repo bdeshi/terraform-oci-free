@@ -2,6 +2,15 @@ data "oci_identity_tenancy" "tenancy" {
   tenancy_id = var.tenancy_id
 }
 
+# use this instead of oci_kms_key.key to await supporting policy creation
+data "oci_kms_key" "key" {
+  for_each = var.create_vault ? var.use_vault : {}
+
+  management_endpoint = oci_kms_vault.vault[0].management_endpoint
+  key_id              = oci_kms_key.key[each.key].id
+  depends_on          = [oci_identity_policy.kms_service_policy]
+}
+
 data "oci_identity_availability_domains" "available" {
   compartment_id = oci_identity_compartment.compartment.id
 }
