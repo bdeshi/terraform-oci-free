@@ -30,11 +30,11 @@ locals {
   compute_availability_domains = {
     micro = !var.create_instances.micro ? [] : [
       for domain, value in data.oci_core_shapes.available :
-      domain if contains(value.shapes.*.name, local.compute_shapes.micro)
+      domain if contains(value.shapes[*].name, local.compute_shapes.micro)
     ]
     flex = !var.create_instances.flex ? [] : [
       for domain, value in data.oci_core_shapes.available :
-      domain if contains(value.shapes.*.name, local.compute_shapes.flex)
+      domain if contains(value.shapes[*].name, local.compute_shapes.flex)
     ]
   }
 

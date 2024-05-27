@@ -53,7 +53,7 @@ resource "oci_core_instance" "compute" {
   lifecycle {
     ignore_changes = [
       # don't replace running instances when latest available image changes
-      source_details.0.source_id
+      source_details[0].source_id
     ]
   }
 }

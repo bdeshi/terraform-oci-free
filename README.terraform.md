@@ -64,14 +64,11 @@ No modules.
 | <a name="input_oci_region"></a> [oci\_region](#input\_oci\_region) | The region for the OCI provider | `string` | n/a | yes |
 | <a name="input_tenancy_id"></a> [tenancy\_id](#input\_tenancy\_id) | The OCID of the tenancy | `string` | n/a | yes |
 | <a name="input_admin_create_credentials"></a> [admin\_create\_credentials](#input\_admin\_create\_credentials) | Types of credentials to create for the admin user | <pre>object({<br>    api_key      = bool<br>    auth_token   = bool<br>    customer_key = bool<br>    password     = bool<br>  })</pre> | <pre>{<br>  "api_key": true,<br>  "auth_token": false,<br>  "customer_key": false,<br>  "password": false<br>}</pre> | no |
-| <a name="input_attach_static_ip_to_flex"></a> [attach\_static\_ip\_to\_flex](#input\_attach\_static\_ip\_to\_flex) | Attach reserved static IP to flex instance | `bool` | `true` | no |
-| <a name="input_create_databases"></a> [create\_databases](#input\_create\_databases) | Create databases | `bool` | `true` | no |
 | <a name="input_create_instances"></a> [create\_instances](#input\_create\_instances) | Create compute instances types | <pre>object({<br>    micro = bool<br>    flex  = bool<br>  })</pre> | <pre>{<br>  "flex": true,<br>  "micro": true<br>}</pre> | no |
 | <a name="input_create_static_ip"></a> [create\_static\_ip](#input\_create\_static\_ip) | Create a reserved static IP | `bool` | `true` | no |
 | <a name="input_create_topics"></a> [create\_topics](#input\_create\_topics) | Create notification topics | `bool` | `true` | no |
 | <a name="input_create_vault"></a> [create\_vault](#input\_create\_vault) | Create vault | `bool` | `true` | no |
 | <a name="input_created_compute_ssh_key_algorithm"></a> [created\_compute\_ssh\_key\_algorithm](#input\_created\_compute\_ssh\_key\_algorithm) | The algorithm for the created SSH key if no key is provided | `string` | `"ED25519"` | no |
-| <a name="input_database_types"></a> [database\_types](#input\_database\_types) | Types of database workloads to create | `list(string)` | `[]` | no |
 | <a name="input_email_configuration"></a> [email\_configuration](#input\_email\_configuration) | values for email configuration | <pre>object({<br>    email_domains    = list(string)<br>    approved_senders = list(string)<br>    suppression_list = list(string)<br>  })</pre> | <pre>{<br>  "approved_senders": [],<br>  "email_domains": [],<br>  "suppression_list": []<br>}</pre> | no |
 | <a name="input_enable_email_delivery"></a> [enable\_email\_delivery](#input\_enable\_email\_delivery) | Create email delivery supporting configurations | `bool` | `true` | no |
 | <a name="input_enable_ipv6"></a> [enable\_ipv6](#input\_enable\_ipv6) | Enable IPv6 for the VCN | `bool` | `true` | no |

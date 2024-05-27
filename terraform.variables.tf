@@ -115,27 +115,27 @@ variable "create_static_ip" {
   default     = true
 }
 
-variable "attach_static_ip_to_flex" {
-  description = "Attach reserved static IP to flex instance"
-  type        = bool
-  default     = true
-}
+# variable "attach_static_ip_to_flex" {
+#   description = "Attach reserved static IP to flex instance"
+#   type        = bool
+#   default     = true
+# }
 
-variable "create_databases" {
-  description = "Create databases"
-  type        = bool
-  default     = true
-}
-
-variable "database_types" {
-  description = "Types of database workloads to create"
-  type        = list(string)
-  default     = []
-  validation {
-    error_message = "database_types must be a list of 'OLTP', 'DW', 'AJD' or 'APEX'"
-    condition     = alltrue([for v in var.database_types : contains(["OLTP", "DW", "AJD", "APEX"], v)])
-  }
-}
+# variable "create_databases" {
+#   description = "Create databases"
+#   type        = bool
+#   default     = true
+# }
+#
+# variable "database_types" {
+#   description = "Types of database workloads to create"
+#   type        = list(string)
+#   default     = []
+#   validation {
+#     error_message = "database_types must be a list of 'OLTP', 'DW', 'AJD' or 'APEX'"
+#     condition     = alltrue([for v in var.database_types : contains(["OLTP", "DW", "AJD", "APEX"], v)])
+#   }
+# }
 
 variable "enable_email_delivery" {
   description = "Create email delivery supporting configurations"
