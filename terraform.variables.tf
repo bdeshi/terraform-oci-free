@@ -151,7 +151,11 @@ variable "email_configuration" {
     approved_senders = list(string)
     suppression_list = list(string)
   })
-  default = {}
+  default = {
+    email_domains    = []
+    approved_senders = []
+    suppression_list = []
+  }
 }
 
 variable "create_notification_topics" {
