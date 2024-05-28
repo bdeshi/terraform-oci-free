@@ -1,6 +1,6 @@
 formatter: markdown table
 output:
-  file: README.terraform.md
+  file: README.md
   mode: inject
 sort:
   by: required
